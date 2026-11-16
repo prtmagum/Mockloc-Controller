@@ -1,0 +1,21 @@
+name: mock_location_kit
+description: Sumber lokasi mock, banner, dan panel debug. Hanya diimpor dari main_dev.dart.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  location_core:
+    path: ../location_core
+  flutter_map: ^8.1.0
+  latlong2: ^0.9.1
+  shared_preferences: ^2.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

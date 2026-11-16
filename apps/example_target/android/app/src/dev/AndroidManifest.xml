@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hanya flavor dev: izin baca provider Controller + visibilitas paket (Android 11+). -->
+    <uses-permission android:name="id.replay.mockloc.permission.READ_LOCATION" />
+    <queries>
+        <provider android:authorities="id.replay.mockloc.provider" />
+    </queries>
+</manifest>

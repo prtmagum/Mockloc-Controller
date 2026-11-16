@@ -1,0 +1,12 @@
+.dart_tool/
+build/
+pubspec.lock
+!apps/*/pubspec.lock
+local.properties
+.idea/
+*.iml
+
+# Keystore internal: jangan pernah di-commit.
+signing/*.jks
+signing/*.keystore
+signing/internal.properties

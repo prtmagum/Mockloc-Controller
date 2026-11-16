@@ -1,0 +1,29 @@
+name: sample_target
+description: Contoh aplikasi target yang membaca lokasi lewat LocationSource (flavor dev/prod).
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+  geolocator: ^14.0.0
+  flutter_map: ^8.1.0
+  latlong2: ^0.9.1
+  location_core:
+    path: ../../packages/location_core
+  # Hanya diimpor dari lib/main_dev.dart. Kode Dart-nya tidak ikut ke build
+  # prod karena tree shaking; guard CI (tool/check_prod_apk.sh) memastikannya.
+  mock_location_kit:
+    path: ../../packages/mock_location_kit
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
