@@ -1,9 +1,13 @@
 # MockLoc
 
-Alat testing lokasi untuk aplikasi Flutter Android sendiri: **tanpa Opsi Pengembang dan tanpa root**.
-Lokasi palsu tidak disuntikkan ke sistem; aplikasi target membaca lokasi lewat `LocationSource`,
-dan di build dev sumber itu bisa diarahkan ke aplikasi Controller. Aplikasi lain (Google Maps,
-WhatsApp, dll.) tetap melihat lokasi asli.
+Alat testing lokasi untuk aplikasi Android. Bisa dipakai di HP **non-root** maupun **root**:
+
+- **Mode Controller/Panel** (non-root, tanpa Opsi Pengembang): lokasi palsu hanya untuk aplikasi
+  Flutter-mu sendiri. Aplikasi target membaca lokasi lewat `LocationSource`, dan di build dev
+  sumber itu bisa diarahkan ke Controller. Aplikasi lain (Google Maps, WhatsApp, dll.) tetap
+  melihat lokasi asli.
+- **Mode Sistem** (non-root lewat Opsi Pengembang, atau root): lokasi palsu dikirim ke provider
+  lokasi Android, jadi semua aplikasi ikut melihatnya. Lihat [Non-root vs root](#non-root-vs-root).
 
 Minimal **Android 9 (API 28)**.
 
@@ -55,14 +59,42 @@ Format koordinat yang dikenali: `-6.9761, 108.4830`, `-6.9761 108.4830`, link Go
 (`@lat,lng` atau pin `!3d…!4d…`), `geo:lat,lng`, dan DMS `6°58'33.96"S 108°28'58.8"E`.
 Lat/lng yang tertukar ditukar otomatis. Link pendek `maps.app.goo.gl` belum didukung.
 
-## Mode Sistem (opsional, Opsi Pengembang atau root)
+## Mode Sistem
 
 Tab **Sistem** di Controller mengirim fix yang sama ke provider lokasi Android (GPS, network,
 fused) dan ke API mock Google Play Services, sehingga Google Maps dan aplikasi lain ikut melihatnya.
-Syaratnya, MockLoc dipilih di Opsi Pengembang → "Pilih aplikasi lokasi palsu", **atau** di HP
-root tap "Izinkan via root" (`appops set … android:mock_location allow`, tanpa Opsi Pengembang).
-Android tetap menandai lokasi ini sebagai mock. Mode Controller/Panel tidak terpengaruh dan tetap
-tanpa Opsi Pengembang.
+Izinnya bisa diberikan dengan dua cara:
+
+- **Non-root**: nyalakan Opsi Pengembang (Setelan → Tentang ponsel → tap "Nomor build" 7 kali),
+  lalu Opsi Pengembang → "Pilih aplikasi lokasi palsu" → MockLoc Controller.
+- **Root**: tap "Izinkan via root" di tab Sistem, lalu izinkan di Magisk/KernelSU. Controller
+  menjalankan `su -c "appops set … android:mock_location allow"`. Opsi Pengembang tidak perlu
+  dinyalakan.
+
+Di kedua cara, Android tetap menandai lokasi ini sebagai mock (`Location.isMock`). Mode
+Controller/Panel tidak terpengaruh mode Sistem.
+
+## Non-root vs root
+
+| | Non-root | Root |
+|---|---|---|
+| Mode Controller/Panel (aplikasi sendiri) | Ya, tanpa Opsi Pengembang | Ya, sama persis |
+| Mode Sistem (semua aplikasi) | Ya, lewat Opsi Pengembang | Ya, tanpa Opsi Pengembang |
+| Setup mode Sistem | Aktifkan Opsi Pengembang + pilih aplikasi lokasi palsu | Satu tap "Izinkan via root" |
+| Ditandai mock oleh Android | Ya | Ya |
+
+**Kelebihan non-root**
+
+- Jalan di HP apa saja, tanpa unlock bootloader, tanpa kehilangan garansi atau update OTA.
+- Mode Controller/Panel tidak butuh izin khusus apa pun; cukup pasang Controller dan app target dev.
+- Lebih aman untuk HP harian: tidak ada aplikasi yang memegang akses `su`.
+
+**Kelebihan root**
+
+- Mode Sistem aktif tanpa menyalakan Opsi Pengembang, jadi setelan HP lain tidak ikut berubah.
+- Setup lebih cepat: satu tap, tanpa menelusuri menu Opsi Pengembang yang letaknya beda-beda di
+  tiap merek (Xiaomi, Samsung, Oppo, dll.).
+- Cocok untuk HP khusus testing yang sudah di-root.
 
 ## Memasang di aplikasimu sendiri
 
