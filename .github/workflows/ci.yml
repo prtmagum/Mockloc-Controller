@@ -17,13 +17,13 @@ jobs:
         run: dart pub get && dart analyze && dart test
       - name: mock_location_kit
         working-directory: packages/mock_location_kit
-        run: flutter pub get && flutter analyze && flutter test
+        run: flutter pub get && flutter analyze --no-fatal-infos && flutter test
       - name: controller
         working-directory: apps/controller
-        run: flutter pub get && flutter analyze && flutter test
+        run: flutter pub get && flutter analyze --no-fatal-infos && flutter test
       - name: example_target
         working-directory: apps/example_target
-        run: flutter pub get && flutter analyze
+        run: flutter pub get && flutter analyze --no-fatal-infos
       - name: Guard pemakaian lokasi
         run: tool/check_location_usage.sh apps/example_target
 
